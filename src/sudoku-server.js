@@ -1,5 +1,11 @@
 "use strict";
 
+
+const client = {
+    puzzle:22
+}
+console.log(JSON.stringify(client));
+
 // Imports
 const express = require("express");
 
@@ -11,18 +17,25 @@ const port = 1604;
 app.listen(port, () => console.log("Listening on port: " + port));
 
 // Receives requests
-app.get("/api/solveSudoku", (req, res) => {
+app.get("/api/solveSudoku/:sudoku", (req, res) => {
     console.log("Received request: Solve sudoku");
 
     try {
-        checkSudokuFormat(req.query.sudoku);
+        checkSudokuFormat(req.params.sudoku);
     } catch (err) {
         res.status(400);
         res.send(err);
     }
 });
 
-function checkSudokuFormat(sudoku) {
-    if (sudoku == null || sudoku == undefined) throw "no sudoku sent";
+function checkSudokuFormat(sent) {
+    if (sent == null || sent == undefined) throw "no sudoku sent";
+    try {
+        const sudoku = JSON.parse(sent);
 
+        if (sudoku.puzzle == undefined || sudoku.puzzle == null) throw "the sudoku does not contain a puzzle";
+        console.log(sudoku.puzzle);
+    } catch (err) {
+        throw "sudoku is not formatted properly";
+    }
 }
