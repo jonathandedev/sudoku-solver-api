@@ -30,12 +30,9 @@ app.get("/api/solveSudoku/:sudoku", (req, res) => {
 
 function checkSudokuFormat(sent) {
     if (sent == null || sent == undefined) throw "no sudoku sent";
-    try {
-        const sudoku = JSON.parse(sent);
 
-        if (sudoku.puzzle == undefined || sudoku.puzzle == null) throw "the sudoku does not contain a puzzle";
-        console.log(sudoku.puzzle);
-    } catch (err) {
-        throw "sudoku is not formatted properly";
-    }
+    const sudoku = JSON.parse(sent);
+
+    if (sudoku.puzzle == undefined || sudoku.puzzle == null) throw "the sudoku does not contain a puzzle";
+    if (sudoku.puzzle.trim().length != 81) throw "the sudoku puzzle is not the right size"
 }
