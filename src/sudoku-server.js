@@ -14,7 +14,7 @@ app.get("/api/solveSudoku", (req, res) => {
     console.log("Received request: Solve sudoku");
 
     try {
-        throw 0;
+        checkSudokuFormat(req.query.sudoku);
     } catch (err) {
         if (err == 0) {
             res.status(400);
@@ -22,3 +22,7 @@ app.get("/api/solveSudoku", (req, res) => {
         }
     }
 });
+
+function checkSudokuFormat(sudoku) {
+    throw 0;
+}
