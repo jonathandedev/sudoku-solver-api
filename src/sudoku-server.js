@@ -1,5 +1,5 @@
 "use strict";
-
+checkBrute();
 
 const client = {
     puzzle:22
@@ -43,6 +43,7 @@ function checkSudokuFormat(sudoku) {
 
 function solveSudoku(sudoku) { 
     let grid = createGrid(sudoku.puzzle);
+    bruteForce(grid);
 }
 
 function createGrid(puzzle) {
@@ -60,4 +61,41 @@ function createGrid(puzzle) {
     }
 
     return grid;
+}
+
+function bruteForce(grid, row, col) {
+    if (row == 9) return true;
+    if (col == 9) bruteForce(grid, row+1, 0);
+
+    if (grid[row][col] == 0) {
+        for (let num=1; num<=9; num++) {
+            if (valid(grid, row, col, num)) {
+                grid[row][col] = num;
+                if (bruteForce(grid, row, col+1)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    bruteForce(grid, row, col+1);
+}
+
+function valid(grid, row, col, num) {
+    
+}
+
+function checkBrute() {
+    let grid = [ [ 3, 0, 6, 5, 0, 8, 4, 0, 0 ],
+             [ 5, 2, 0, 0, 0, 0, 0, 0, 0 ],
+             [ 0, 8, 7, 0, 0, 0, 0, 3, 1 ],
+             [ 0, 0, 3, 0, 1, 0, 0, 8, 0 ],
+             [ 9, 0, 0, 8, 6, 3, 0, 0, 5 ],
+             [ 0, 5, 0, 0, 9, 0, 6, 0, 0 ],
+             [ 1, 3, 0, 0, 0, 0, 2, 5, 0 ],
+             [ 0, 0, 0, 0, 0, 0, 0, 7, 4 ],
+             [ 0, 0, 5, 2, 0, 6, 3, 0, 0 ] ];
+
+    console.log(bruteForce(grid, 0, 0));
+    console.log(grid);
 }
