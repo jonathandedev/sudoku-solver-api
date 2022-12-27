@@ -63,8 +63,18 @@ function solveSudoku(sudoku) {
     let solution = {
         solvable: solvable
     }
-    if (solvable) solution.grid = grid;
+    if (solvable) solution.puzzle = convertGridToString(grid);
     return solution;
+}
+
+function convertGridToString(grid) {
+    let string = "";
+    for (let i=0; i<9; i++) {
+        for (let j=0; j<9; j++) {
+            string += grid[i][j];
+        }
+    }
+    return string;
 }
 
 /**
