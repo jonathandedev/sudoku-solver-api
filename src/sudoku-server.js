@@ -24,7 +24,8 @@ app.get("/api/solveSudoku/:sudoku", (req, res) => {
         const sudoku = JSON.parse(req.params.sudoku);
 
         checkSudokuFormat(sudoku);
-        solveSudoku(sudoku);
+        let solution = solveSudoku(sudoku);
+        res.send(solution);
     } catch (err) {
         console.log(err);
         res.status(400);
@@ -43,7 +44,13 @@ function checkSudokuFormat(sudoku) {
 
 function solveSudoku(sudoku) { 
     let grid = createGrid(sudoku.puzzle);
-    bruteForce(grid);
+    let solvable = bruteForce(grid);
+    
+    let solution = {
+        solvable:solvable
+    }
+    if (solvable) solution.grid = grid;
+    return solution;
 }
 
 function createGrid(puzzle) {
