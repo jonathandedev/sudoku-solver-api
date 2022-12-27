@@ -67,6 +67,12 @@ function solveSudoku(sudoku) {
     return solution;
 }
 
+/**
+ * Converts a 2D array into a string of length 81.
+ * 
+ * @param {Array} grid the 2D array to turn into a string
+ * @returns a string representation of the 2D array
+ */
 function convertGridToString(grid) {
     let string = "";
     for (let i=0; i<9; i++) {
