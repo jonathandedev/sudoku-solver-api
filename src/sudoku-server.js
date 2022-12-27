@@ -53,15 +53,15 @@ function checkSudokuFormat(sudoku) {
  * @param {Object} sudoku the JSON object holding the puzzle string
  * @returns the object holding the solvable boolean and potentially the solution
  */
-function solveSudoku(sudoku) { 
+function solveSudoku(sudoku) {
     // Convert string to 2D array
     let grid = createGrid(sudoku.puzzle);
     // Solve the grid
     let solvable = bruteForce(grid);
-    
+
     // Create the solution object
     let solution = {
-        solvable:solvable
+        solvable: solvable
     }
     if (solvable) solution.grid = grid;
     return solution;
@@ -77,10 +77,10 @@ function createGrid(puzzle) {
     const length = 9;
 
     let grid = [];
-    for (let i=0; i<length; i++) {
+    for (let i = 0; i < length; i++) {
         let row = [];
-        for (let j=0; j<length; j++) {
-            let index = (i*length) + j;
+        for (let j = 0; j < length; j++) {
+            let index = (i * length) + j;
             row.push(puzzle.split("")[index]);
         }
         grid.push(row);
@@ -126,17 +126,17 @@ function bruteForce(grid) {
  */
 function valid(grid, row, col, num) {
     // Checks the same number isn't in the current row
-    for (let i=0; i<9; i++) {
+    for (let i = 0; i < 9; i++) {
         if (grid[row][i] == num) return false;
     }
     // Checks the same number isn't in the current column
-    for (let i=0; i<9; i++) {
+    for (let i = 0; i < 9; i++) {
         if (grid[i][col] == num) return false;
     }
 
     // Checks the smaller 3x3 doesn't contain the same number
-    for (let r=Math.floor(row/3)*3; r<Math.floor(row/3)*3 + 3; r++) {
-        for (let c=Math.floor(col/3)*3; c<Math.floor(col/3)*3 + 3; c++) {
+    for (let r = Math.floor(row / 3) * 3; r < Math.floor(row / 3) * 3 + 3; r++) {
+        for (let c = Math.floor(col / 3) * 3; c < Math.floor(col / 3) * 3 + 3; c++) {
             if (grid[r][c] == num) return false;
         }
     }
