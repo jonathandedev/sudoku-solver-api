@@ -69,11 +69,12 @@ function bruteForce(grid, row, col) {
 
     if (grid[row][col] == 0) {
         for (let num=1; num<=9; num++) {
+            grid[row][col] = num;
             if (valid(grid, row, col, num)) {
-                grid[row][col] = num;
                 if (bruteForce(grid, row, col+1)) {
                     return true;
                 }
+                grid[row][col] = 0;
             }
         }
         return false;
@@ -82,7 +83,20 @@ function bruteForce(grid, row, col) {
 }
 
 function valid(grid, row, col, num) {
-    
+    for (let i=0; i<9; i++) {
+        if (grid[row][i] == num) return false;
+    }
+    for (let i=0; i<9; i++) {
+        if (grid[i][col] == num) return false;
+    }
+
+    for (let r=Math.floor(row/3)*3; r<Math.floor(row/3)*3 + 3; r++) {
+        for (let c=Math.floor(col/3)*3; c<Math.floor(col/3)*3 + 3; c++) {
+            if (grid[r][c] == num) return false;
+        }
+    }
+
+    return true;
 }
 
 function checkBrute() {
