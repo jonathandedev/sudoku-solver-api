@@ -63,23 +63,24 @@ function createGrid(puzzle) {
     return grid;
 }
 
-function bruteForce(grid, row, col) {
-    if (row == 9) return true;
-    if (col == 9) bruteForce(grid, row+1, 0);
-
-    if (grid[row][col] == 0) {
-        for (let num=1; num<=9; num++) {
-            grid[row][col] = num;
-            if (valid(grid, row, col, num)) {
-                if (bruteForce(grid, row, col+1)) {
-                    return true;
+function bruteForce(grid) {
+    for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+            if (grid[row][col] == 0) {
+                for (let num = 1; num <= 9; num++) {
+                    if (valid(grid, row, col, num)) {
+                        grid[row][col] = num;
+                        if (bruteForce(grid)) {
+                            return true;
+                        }
+                        grid[row][col] = 0;
+                    }
                 }
-                grid[row][col] = 0;
+                return false;
             }
         }
-        return false;
     }
-    bruteForce(grid, row, col+1);
+    return true;
 }
 
 function valid(grid, row, col, num) {
@@ -109,6 +110,16 @@ function checkBrute() {
              [ 1, 3, 0, 0, 0, 0, 2, 5, 0 ],
              [ 0, 0, 0, 0, 0, 0, 0, 7, 4 ],
              [ 0, 0, 5, 2, 0, 6, 3, 0, 0 ] ];
+
+    // let grid = [ [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+    // [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+    // [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+    // [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+    // [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+    // [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+    // [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+    // [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+    // [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ] ];
 
     console.log(bruteForce(grid, 0, 0));
     console.log(grid);
