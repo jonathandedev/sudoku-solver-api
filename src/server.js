@@ -4,16 +4,15 @@
 const express = require("express");
 
 // Constants
-const app = express();
-const port = 1604;
+const router = express.Router();
 
-// Server Setup
-app.listen(port, () => console.log("Listening on port: " + port));
+router.get("/", (req, res) => {
+    res.status(400);
+    res.send("no sudoku sent");
+});
 
 // Receives requests
-app.get("/api/solveSudoku/:sudoku", (req, res) => {
-    console.log("Received request: Solve sudoku");
-
+router.get("/:sudoku", (req, res) => {
     try {
         // Parse the client input
         const sudoku = JSON.parse(req.params.sudoku);
@@ -23,9 +22,8 @@ app.get("/api/solveSudoku/:sudoku", (req, res) => {
         let solution = solveSudoku(sudoku);
         res.send(solution);
     } catch (err) {
-        console.log(err);
-        res.status(400);
-        res.send(err);
+	res.status(400);
+	res.send(err.message);
     }
 });
 
@@ -38,6 +36,7 @@ app.get("/api/solveSudoku/:sudoku", (req, res) => {
  */
 function checkSudokuFormat(sudoku) {
     if (sudoku == null || sudoku == undefined) throw "no sudoku sent";
+    if (JSON.stringify(sudoku) === "{}") throw "no sudoku sent";
 
     if (sudoku.puzzle == undefined || sudoku.puzzle == null) throw "the sudoku does not contain a puzzle";
     if (typeof sudoku.puzzle != "string") throw "the sudoku does not contain a puzzle of the right format";
@@ -159,3 +158,5 @@ function valid(grid, row, col, num) {
 
     return true;
 }
+
+module.exports = router;
